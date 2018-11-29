@@ -28,7 +28,8 @@ constructor(props) {
        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
        this.setState({
          isLoading: false,
-         dataSource: ds.cloneWithRows(responseJson),
+     //    datasource: responseJson.ds.filter(x => x.id == '2'),
+         //     dataSource: ds.cloneWithRows(responseJson)
        }, function() {
          // In this block you can do something with new state.
        });
