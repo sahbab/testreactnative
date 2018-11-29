@@ -11,8 +11,10 @@ export default class RuhiBookApp_V0 extends Component {
 constructor(props) {
    super(props);
    this.state = {
-     isLoading: true
-   }
+     isLoading: true,
+     data: []
+  };
+
  }
  GetItem (book_name){
    //this is a test
@@ -28,8 +30,8 @@ constructor(props) {
        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
        this.setState({
          isLoading: false,
-     //    datasource: responseJson.ds.filter(x => x.id == '2'),
-         //     dataSource: ds.cloneWithRows(responseJson)
+        data: responseJson.book_name.filter(x => x.id == '2'),
+        //      dataSource: ds.cloneWithRows(responseJson)
        }, function() {
          // In this block you can do something with new state.
        });
