@@ -1,0 +1,4 @@
+<Text onPress={() => navigate('Quotes', {name: 'Jane'})} > { book_id  == 1 ? rowData.unit_info[0].unit_name  : 'failed'}
+        
+        {book_id }</Text>
+       

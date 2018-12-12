@@ -13,6 +13,7 @@ constructor(props) {
    this.state = {
      isLoading: true
    }
+   
  }
  GetItem (unit_it){
  }
@@ -20,21 +21,25 @@ constructor(props) {
  
  
  componentDidMount() {
-
-   return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_units_list.php')
-     .then((response) => response.json())
-     .then((responseJson) => {
-       let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-       this.setState({
-         isLoading: false,
-         dataSource: ds.cloneWithRows(responseJson),
-       }, function() {
-         // In this block you can do something with new state.
-       });
-     })
-     .catch((error) => {
-       console.error(error);
-     });
+  const {navigate} = this.props.navigation;
+  const navigation = this.props.navigation;
+  const book_id = navigation.getParam('par_book_id');  
+    
+  return fetch('http://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list2.php?book_id='+book_id)
+  .then((response) => response.json())
+  .then((responseJson) => {
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.setState({
+      isLoading: false,
+      dataSource: ds.cloneWithRows(responseJson),
+    }, function() {
+      // In this block you can do something with new state.
+    });
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+   
  }
  
  
@@ -53,7 +58,9 @@ constructor(props) {
    
    render() {
     const {navigate} = this.props.navigation;
-          
+    const navigation = this.props.navigation;
+    const book_id = navigation.getParam('par_book_id');  
+    
    if (this.state.isLoading) {
      return (
        <View style={{flex: 1, paddingTop: 20}}>
@@ -69,21 +76,32 @@ constructor(props) {
        <ListView
 
          dataSource={this.state.dataSource}
-
+         
          renderSeparator= {this.ListViewItemSeparator}
-
+        
          renderRow={(rowData) =>
 
         <View style={{flex:1, flexDirection: 'row'}}>
-        <Text onPress={() => navigate('Home', {name: 'Jane'})} >{rowData.unit_name}</Text>
-        <Text onPress={() => navigate('Quotes', {name: 'Jane'})} >{rowData.unit_desc}</Text>
+         
+       {rowData.unit_info.map((item, num) => 
+            
+       <Text onPress={() => navigate('Quotes', {name: item.unit_id})} > 
+       
+       { num == 0 ? item.unit_name : 11 } <br/></Text> 
+          
+            ) 
+        }
         
+       
         </View>
          }
        />
 
      </View>
+      
    );
+   
+
  }
  _onPressRow(rowID, rowData) {
 

@@ -30,8 +30,8 @@ constructor(props) {
        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
        this.setState({
          isLoading: false,
-        data: responseJson.book_name.filter(x => x.id == '2'),
-        //      dataSource: ds.cloneWithRows(responseJson)
+        
+             dataSource: ds.cloneWithRows(responseJson)
        }, function() {
          // In this block you can do something with new state.
        });
@@ -82,7 +82,7 @@ constructor(props) {
 
           <Image source = {{ uri: rowData.book_image_url }} style={styles.imageViewContainer} />
         
-          <Text onPress={() => navigate('BookUnits', {name: 'Jane'})} >{rowData.book_name}}</Text>
+          <Text onPress={() => navigate('BookUnits', { par_book_id : rowData.id })} >{rowData.book_name}</Text>
          
           
         </View>
