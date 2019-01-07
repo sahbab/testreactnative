@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
-
-import { AppRegistry, StyleSheet, ActivityIndicator, ListView, Text, View, Alert,Image, Platform} from 'react-native';
+import { ListItem } from 'react-native-elements'
+import { AppRegistry, StyleSheet, ActivityIndicator, ListView, FlatList, Text, View, Alert,Image, Platform} from 'react-native';
 // https://sahbabahizad.com/ruhi_book_app/ruhi_units_list.php
 //https://sahbabahizad.com/ruhi_book_app/BooksList.php
 export default class bookunits extends Component {
@@ -73,36 +73,38 @@ constructor(props) {
 
      <View style={styles.MainContainer}>
 
-       <ListView
+     <ListView
 
          dataSource={this.state.dataSource}
+         renderRow={(rowData) => this._renderRow(rowData)}
          
-         renderSeparator= {this.ListViewItemSeparator}
+      />
         
-         renderRow={(rowData) =>
-
-        <View style={{flex:1, flexDirection: 'row'}}>
-         
-       {rowData.unit_info.map((item, num) => 
-            
-       <Text onPress={() => navigate('Quotes', {name: item.unit_id})} > 
-       
-       { num == 0 ? item.unit_name : 11 } <br/></Text> 
-          
-            ) 
-        }
-        
-       
-        </View>
-         }
-       />
-
-     </View>
-      
+    </View>
    );
    
 
  }
+
+ _renderRow=(rowData)=> {
+  return (
+    <View style={{flex:1, flexDirection: 'column', justifyContent: 'space-between',}}>
+    
+     {rowData.unit_info.map((item, i) => {
+    return <ListItem style={{ flex:1, backgroundColor: 'steelblue'}} key={item.unit_id} title = {item.unit_name} 
+    subtitle={item.unit_desc}
+    
+    >
+    
+    </ListItem>
+    
+   
+    
+    })}
+   </View>
+   
+  );
+}
  _onPressRow(rowID, rowData) {
 
     rowData.isSelect = !rowData.isSelect;
