@@ -23,8 +23,10 @@ constructor(props) {
   const navigation = this.props.navigation;
   const book_id = navigation.getParam('par_book_id'); 
   const unit_id = navigation.getParam('par_unit_id'); 
-   // return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id='+book_id+'&unit_id'+unit_id)
-      return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id=1&unit_id=2')
+  console.log(book_id);
+  console.log(unit_id);
+   return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id='+book_id+'&unit_id='+unit_id)
+    //  return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id=1&unit_id=2')
      .then((response) => response.json())
      .then((responseJson) => {
       let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});

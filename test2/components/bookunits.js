@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { ListItem } from 'react-native-elements'
-import { AppRegistry, StyleSheet, ActivityIndicator, ListView, FlatList, Text, View, Alert,Image, Platform} from 'react-native';
+import { AppRegistry, StyleSheet, ActivityIndicator, ListView,  Text, View, Alert,Image, Platform} from 'react-native';
 // https://sahbabahizad.com/ruhi_book_app/ruhi_units_list.php
 //https://sahbabahizad.com/ruhi_book_app/BooksList.php
 export default class bookunits extends Component {
@@ -92,7 +92,7 @@ constructor(props) {
     <View style={{flex:1, flexDirection: 'column', justifyContent: 'space-between',}}>
     
      {rowData.unit_info.map((item, i) => {
-    return <ListItem button onPress={() => this.props.navigation.navigate('Quotes', { par_book_id : rowData.book_id, par_unit_id : rowData.unit_id })} 
+    return <ListItem button onPress={() => this.props.navigation.navigate('Quotes', { par_book_id : book_id, par_unit_id : item.unit_id })} 
     style={{ flex:1, backgroundColor: 'steelblue'} }
     key={item.unit_id} title = {item.unit_name} 
     ><Text >{item.unit_desc}
