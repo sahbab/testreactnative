@@ -1,11 +1,11 @@
 
 import React, { Component } from 'react';
 
-import { AppRegistry, StyleSheet, ActivityIndicator, FlatList, Text, View, Alert,Image, Platform} from 'react-native';
-
+import { AppRegistry, StyleSheet, ActivityIndicator, ListView, Text, View, Alert,Image, Platform} from 'react-native';
+import { ListItem } from 'react-native-elements'
 export default class quotes extends Component {
   static navigationOptions = {
-    title: 'Select a Unit',
+    title: 'Select a Quote',
   };
 constructor(props) {
    super(props);
@@ -19,24 +19,28 @@ constructor(props) {
  
  
  componentDidMount() {
-
-   return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php')
+  const {navigate} = this.props.navigation;
+  const navigation = this.props.navigation;
+  const book_id = navigation.getParam('par_book_id'); 
+  const unit_id = navigation.getParam('par_unit_id'); 
+   // return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id='+book_id+'&unit_id'+unit_id)
+      return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id=1&unit_id=2')
      .then((response) => response.json())
      .then((responseJson) => {
-       let ds = new FlatList.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-       this.setState({
-         isLoading: false,
-         dataSource: ds.cloneWithRows(responseJson),
-       }, function() {
-         // In this block you can do something with new state.
-       });
-     })
-     .catch((error) => {
-       console.error(error);
-     });
+      let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      this.setState({
+        isLoading: false,
+        dataSource: ds.cloneWithRows(responseJson),
+      }, function() {
+        // In this block you can do something with new state.
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
  }
  
- FlatListItemSeparator = () => {
+ ListViewItemSeparator = () => {
    return (
      <View
        style={{
@@ -51,7 +55,10 @@ constructor(props) {
    
    render() {
     const {navigate} = this.props.navigation;
-          
+    const navigation = this.props.navigation;
+    const book_id = navigation.getParam('par_book_id');  
+    const unit_id = navigation.getParam('par_unit_id');  
+
    if (this.state.isLoading) {
      return (
        <View style={{flex: 1, paddingTop: 20}}>
@@ -64,11 +71,11 @@ constructor(props) {
 
      <View style={styles.MainContainer}>
 
-       <FlatList
+       <ListView
 
          dataSource={this.state.dataSource}
 
-         renderSeparator= {this.FlatListItemSeparator}
+         renderSeparator= {this.ListViewItemSeparator}
 
          renderRow={(rowData) =>
 

@@ -12,7 +12,7 @@ export default class homescreen extends React.Component {
 
         <Button
           title="Welcome to ruhi app book"
-          onPress={() => navigate('RuhiBooks', {name: 'Jane'})}
+          onPress={() => navigate('RuhiBooks', {name: 'welcome'})}
         />
       );
     }

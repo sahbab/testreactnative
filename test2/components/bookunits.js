@@ -15,9 +15,7 @@ constructor(props) {
    }
    
  }
- GetItem (unit_it){
- }
- 
+
  
  
  componentDidMount() {
@@ -57,9 +55,7 @@ constructor(props) {
  
    
    render() {
-    const {navigate} = this.props.navigation;
-    const navigation = this.props.navigation;
-    const book_id = navigation.getParam('par_book_id');  
+    
     
    if (this.state.isLoading) {
      return (
@@ -87,15 +83,20 @@ constructor(props) {
  }
 
  _renderRow=(rowData)=> {
+  const {navigate} = this.props.navigation;
+  const navigation = this.props.navigation;
+  const book_id = navigation.getParam('par_book_id');  
+  const unit_id = navigation.getParam('par_unit_id');  
+  
   return (
     <View style={{flex:1, flexDirection: 'column', justifyContent: 'space-between',}}>
     
      {rowData.unit_info.map((item, i) => {
-    return <ListItem style={{ flex:1, backgroundColor: 'steelblue'}} key={item.unit_id} title = {item.unit_name} 
-    subtitle={item.unit_desc}
-    
-    >
-    
+    return <ListItem button onPress={() => this.props.navigation.navigate('Quotes', { par_book_id : rowData.book_id, par_unit_id : rowData.unit_id })} 
+    style={{ flex:1, backgroundColor: 'steelblue'} }
+    key={item.unit_id} title = {item.unit_name} 
+    ><Text >{item.unit_desc}
+    </Text>
     </ListItem>
     
    
