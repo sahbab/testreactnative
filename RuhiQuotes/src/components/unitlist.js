@@ -20,10 +20,10 @@ export default class unitscreen extends Component {
 
   
   componentDidMount() {
-    const {navigate} = this.props.navigation;
+  const {navigate} = this.props.navigation;
   const navigation = this.props.navigation;
   const book_id = navigation.getParam('par_book_id');  
-    
+  
     return fetch('http://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list2.php?book_id='+book_id)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -60,12 +60,13 @@ export default class unitscreen extends Component {
               <Card>
                 <CardItem >
                 
-    <View>
+                  <View>
     
                 {item.unit_info.map((item, i) => {
-   return <ListItem button onPress={() => this.props.navigation.navigate('QuoteScreen', { par_book_id : item.book_id, par_unit_id : item.unit_id })} 
-   
-   key={item.unit_id} title = {item.unit_name} 
+
+                return <ListItem button onPress={() => navigate('QuoteScreen', { par_book_id : item.book_id, par_unit_id : item.unit_id })} 
+  
+                  key={item.unit_id} title = {item.unit_name} 
  
    >
    <View>
@@ -73,8 +74,8 @@ export default class unitscreen extends Component {
    </Text>
    <Text >{item.unit_desc}
    </Text>
-   <Icon Right name='add' />
-   </View>
+   </View><Icon Right name='arrow-forward' />
+   
    </ListItem>
    
   

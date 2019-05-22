@@ -53,11 +53,12 @@ export default class bookscreen extends Component {
             <FlatList
             data={this.state.dataSource}
             renderItem ={({item}) => 
-              <Card>
-                <CardItem>
-                
-                
-                <View style={{flex: 1}}>
+              <Card >
+
+                <CardItem> 
+                <Button iconRight transparent dark style={{flex: 1}}
+                 onPress={() => navigate('UnitScreen', { par_book_id : item.id})}>
+                <View >
                 <Image source={{ uri: item.book_image_url }} style={styles.imageViewContainer}/>
                 </View>
                 
@@ -71,12 +72,10 @@ export default class bookscreen extends Component {
                 </Text>
                 </View>
                 
-                <Button iconRight transparent dark onPress={() => navigate('UnitScreen', { par_book_id : item.id})}>
                 <Icon Right name='arrow-forward' />
-                  
-                </Button>
-                
+                </Button> 
                 </CardItem> 
+                
               </Card>}
             keyExtractor={(item, index) => index.toString()}
             />  

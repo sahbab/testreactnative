@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7126cad4-1a52-4fc6-b146-ca5223b4de32" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/test2/MovieList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RuhiQuotes/src/components/booklist.js" beforeDir="false" afterPath="$PROJECT_DIR$/RuhiQuotes/src/components/booklist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RuhiQuotes/src/components/quotelist.js" beforeDir="false" afterPath="$PROJECT_DIR$/RuhiQuotes/src/components/quotelist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RuhiQuotes/src/components/unitlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/RuhiQuotes/src/components/unitlist.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,10 +16,11 @@
     <session id="730770101">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
     </session>
