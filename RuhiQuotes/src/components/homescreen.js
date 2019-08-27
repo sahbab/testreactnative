@@ -3,7 +3,7 @@ import {AppRegistry, View, Text, StyleSheet  } from 'react-native'
 import { Container, Content, Header ,Button , Body, Right, Left, Card, CardItem, Icon , Thumbnail, ListItem} from 'native-base';
 export default class homescreen extends React.Component {
     static navigationOptions = {
-      title: 'Welcome to homescreen',
+      title: 'Greetings!',
     };
     render() {
       const {navigate} = this.props.navigation;
@@ -11,38 +11,34 @@ export default class homescreen extends React.Component {
         <Text > Welcome to ruhi app book</Text>
       </View>
       return (
+        
 
+        
         <View style={styles.container}>
           <View style={styles.block}>
             <Icon style={styles.iconstyle} Right name='book' />
             <Text style={styles.textstyle} onPress={() => navigate('BookScreen', {name: 'memorize'})}>
-              Memorize the quotations 
+              Memorize
             </Text>
           </View>
-        
-        <View style={styles.block}>
-        <Icon style={styles.iconstyle} Right name='star' />
-        <Text style={styles.textstyle} onPress={() => navigate('BookScreen', {name: 'favorite'})}>
-        My Favorite Quotations 
-        </Text>
-        
-        </View>
 
+
+          
         <View style={styles.block}>
-        <Icon style={styles.iconstyle}  Right name='search' />
-        <Text style={styles.textstyle} onPress={() => navigate('BookScreen', {name: 'search'})}>
-        Search
+        <Icon style={styles.iconstyle}  Right name='heart' />
+        <Text style={styles.textstyle} onPress={() => navigate('BlankPage', {name: 'favorite'})}>
+        Favorites
         </Text>
        
         </View>
-
         <View style={styles.block}>
-        <Icon style={styles.iconstyle} Right name='star' />
-        <Text style={styles.textstyle} onPress={() => navigate('BookScreen', {name: 'about'})}>
-        About the Ruhi Book App 
+        <Icon style={styles.iconstyle}  Right name='search' />
+        <Text style={styles.textstyle} onPress={() => navigate('SearchQuote', {name: 'search'})}>
+        Search All Books
         </Text>
-        
+       
         </View>
+        
 
       </View>
         
@@ -54,7 +50,7 @@ export default class homescreen extends React.Component {
       flex: 1,
       marginTop: 20,
       marginBottom: 30,
-      backgroundColor: '#b0e0e6',
+      backgroundColor: '#bbbbb2',
       
     },
     block: {
@@ -63,6 +59,16 @@ export default class homescreen extends React.Component {
       backgroundColor: 'white',
       margin: 10,
       paddingTop: 70,
+      flexDirection: 'row',
+      //alignItems: 'center',
+     
+    },
+    top_bar: {
+      flex: 0.5,
+      margin: 20,
+      backgroundColor: 'white',
+      margin: 10,
+      paddingTop: 20,
       flexDirection: 'row',
       //alignItems: 'center',
      

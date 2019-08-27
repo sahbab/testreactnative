@@ -14,6 +14,9 @@ import HomeScreen from './src/components/homescreen';
 import BookScreen from './src/components/booklist';
 import UnitScreen from './src/components/unitlist';
 import QuoteScreen from './src/components/quotelist';
+import QuoteCard from './src/components/quotecard';
+import SearchQuote from './src/components/search';
+import BlankPage from './src/components/blank';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -28,6 +31,9 @@ const MainNavigator = createStackNavigator({
   BookScreen: {screen: BookScreen},
   UnitScreen: {screen: UnitScreen},
   QuoteScreen: {screen: QuoteScreen},
+  QuoteCard: {screen: QuoteCard},
+  SearchQuote: {screen: SearchQuote},
+  BlankPage: {screen: BlankPage},
 });
 
 

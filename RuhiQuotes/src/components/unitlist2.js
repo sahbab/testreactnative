@@ -1,16 +1,14 @@
 
 import React, { Component } from 'react';
 // import Header from './header';
-import { AppRegistry,  StyleSheet, ActivityIndicator, Text, View, Alert,Image, Platform} from 'react-native';
+import { AppRegistry, StyleSheet, ActivityIndicator, Text, View, Alert,Image, Platform} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { Container, Content, Header ,Footer, Button , Body, Right, Left, Card, CardItem, Icon , Thumbnail, ListItem} from 'native-base';
+import { Container, Content, Header ,Button , Body, Right, Left, Card, CardItem, Icon , Thumbnail, ListItem} from 'native-base';
 // https://sahbabahizad.com/ruhi_book_app/ruhi_units_list.php
 //https://sahbabahizad.com/ruhi_book_app/BooksList.php
 export default class unitscreen extends Component {
- static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'Book ' + navigation.getParam('par_book_id') + " Units ",
-    };
+  static navigationOptions = {
+    title: 'Select a Unit',
   };
   constructor(props) {
     super(props);
@@ -39,6 +37,7 @@ export default class unitscreen extends Component {
         console.error(error);
       });
   }
+
   render() {
     const {navigate} = this.props.navigation;
     if (this.state.isLoading) {
@@ -51,45 +50,47 @@ export default class unitscreen extends Component {
     
 
     return (
-      
+      <View style={styles.cardalign}>
         <Container>
           <Content>
           
             <FlatList
             data={this.state.dataSource}
             renderItem ={({item}) => 
-              <Card >
-                <CardItem> 
-                <View>
+              <Card>
+                <CardItem >
+                
+                  <View>
     
                 {item.unit_info.map((item, i) => {
 
-                    return <ListItem button onPress={() => navigate('QuoteScreen', { par_book_id : item.book_id, par_unit_id : item.unit_id })}  key={item.unit_id} title = {item.unit_name} >
-                              <View style={styles.textview}>
-
-                                   <Text style={{fontWeight: 'bold', marginBottom: 5 }}>
-                                      Unit {item.unit_id}
-                                    </Text>
-                                    <Text style={{fontWeight: 'bold'}}>Purpose:</Text>
-                                    <Text style={{marginLeft: 8}}>{item.unit_desc}</Text>
-                                   
-                              </View>
-                             
-                              </ListItem>
-
-                })}
-</View>
-                   
+                return <ListItem button onPress={() => navigate('QuoteScreen', { par_book_id : item.book_id, par_unit_id : item.unit_id })} 
+  
+                  key={item.unit_id} title = {item.unit_name} 
+ 
+   >
+   <View>
+   <Text style={{fontWeight: 'bold', marginBottom: 5}}>Unit {item.unit_id}
+   </Text>
+   <Text >{item.unit_desc}
+   </Text>
+   </View><Icon Right name='arrow-forward' />
+   
+   </ListItem>
+   
+  
+   
+   })}
+  </View>
                 </CardItem> 
-            </Card>}
+              </Card>}
             keyExtractor={(item, index) => index.toString()}
             />  
           </Content>
-        
         </Container>
-    
+      </View>
     );
-    }
+  }
 }
 const styles = StyleSheet.create({
 
@@ -106,19 +107,10 @@ const styles = StyleSheet.create({
     cardalign:{
       alignItems:'stretch',
       flex: 1 ,
-      justifyContent: 'flex-end',
+      justifyContent: 'center',
       flexDirection:'row'
     }
-    ,
-    textview: {
     
-      width: '85%',
-      textAlignVertical:'center',
-      textAlign:'justify',
-      padding:10,
-      color: '#000'
-      },
-      
     });
     
 // AppRegistry.registerComponent('RuhiBookApp_V0', () => RuhiBookApp_V0);

@@ -8,7 +8,7 @@ import { Container, Content, ListItem, Footer,  Header ,Button , Body, Right, Le
 //https://sahbabahizad.com/ruhi_book_app/BooksList.php
 export default class bookscreen extends Component {
   static navigationOptions = {
-    title: 'Select a Book',
+    title: 'No Data Found!',
   };
   constructor(props) {
     super(props);
@@ -20,64 +20,36 @@ export default class bookscreen extends Component {
 
   
   componentDidMount() {
-    return fetch('https://sahbabahizad.com/ruhi_book_app/BooksList.php')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    
   }
 
   render() {
     const {navigate} = this.props.navigation;
-    if (this.state.isLoading) {
-      return (
-        <View style={{flex: 1}}>
-          <ActivityIndicator />
-        </View>
-      );
-    }
     
-
     return (
-      <View style={styles.cardalign}>
+     
         <Container>
           <Content>
           
-            <FlatList
-            data={this.state.dataSource}
-            renderItem ={({item}) => 
               <Card >
 
                 <CardItem> 
-                  <ListItem button onPress={() => navigate('UnitScreen' , { par_book_id : item.id})}>
-                    
-                    <Image source={{ uri: item.book_image_url }} style={styles.imageViewContainer}/>
+                  
                     <View style={styles.textview}>
-                    <Text style={{ marginBottom: 5, textAlignVertical:'top'}}>Book {item.id}</Text>
+                    <Text style={{ marginBottom: 5, textAlignVertical:'top'}}>No Data Yet!</Text>
                     
-                    <Text>{item.book_name}</Text>
                     </View>
                    
-                  </ListItem>
-               
+                 
                 </CardItem> 
                 
-              </Card>}
-            keyExtractor={(item, index) => index.toString()}
-            />  
+              </Card> 
           </Content>
           <Footer>
          
          </Footer>
         </Container>
-      </View>
+     
     );
   }
 }
