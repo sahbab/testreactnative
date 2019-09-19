@@ -58,30 +58,32 @@ export default class unitscreen extends Component {
             <FlatList
             data={this.state.dataSource}
             renderItem ={({item}) => 
-              <Card >
-                <CardItem> 
+             
                 <View>
     
                 {item.unit_info.map((item, i) => {
 
                     return <ListItem button onPress={() => navigate('QuoteScreen', { par_book_id : item.book_id, par_unit_id : item.unit_id })}  key={item.unit_id} title = {item.unit_name} >
-                              <View style={styles.textview}>
+                              <Card style={styles.textview}>
+                <CardItem> 
+                              <View >
 
-                                   <Text style={{fontWeight: 'bold', marginBottom: 5 }}>
+                                   <Text style={{fontWeight: 'bold', marginBottom: 5}}>
                                       Unit {item.unit_id}
                                     </Text>
-                                    <Text style={{fontWeight: 'bold'}}>Purpose:</Text>
-                                    <Text style={{marginLeft: 8}}>{item.unit_desc}</Text>
+                                    <Text style={styles.textstyle2}>
+                                    <Icon style={styles.iconstyle} name="flag" > </Icon>  Purpose</Text>
+                                    <Text style={styles.textstyle}>{item.unit_desc}</Text>
                                    
                               </View>
-                             
+                              </CardItem> 
+            </Card>
                               </ListItem>
 
                 })}
 </View>
                    
-                </CardItem> 
-            </Card>}
+                }
             keyExtractor={(item, index) => index.toString()}
             />  
           </Content>
@@ -106,19 +108,44 @@ const styles = StyleSheet.create({
     cardalign:{
       alignItems:'stretch',
       flex: 1 ,
-      justifyContent: 'flex-end',
+      justifyContent: 'center',
       flexDirection:'row'
     }
     ,
     textview: {
     
-      width: '85%',
+      width: '100%',
       textAlignVertical:'center',
       textAlign:'justify',
       padding:10,
       color: '#000'
       },
+      textstyle2: {
+     
+        textAlign: 'center',
+        fontSize: 14,
+        color:"darkgray",
+        fontWeight: 'bold',
+        marginBottom: 3,
+         textAlignVertical:'top'
+      } ,
+      textstyle: {
       
+        textAlign: 'left',
+        fontSize: 18,
+        color:"black",
+        fontWeight: 'bold',
+      
+      },
+      iconstyle: {
+        flex: 0.20,
+        
+       textAlign: 'right',
+        fontSize: 14,
+        marginTop:-10,
+        marginRight: 30,
+        color: 'darkgray'
+      },
     });
     
 // AppRegistry.registerComponent('RuhiBookApp_V0', () => RuhiBookApp_V0);

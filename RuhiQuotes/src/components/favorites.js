@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 // import Header from './header';
-import { AppRegistry, StyleSheet, ActivityIndicator, Text, View, Alert,Image, Platform} from 'react-native';
+import { AppRegistry, StyleSheet, ActivityIndicator, Text,TextInput,TouchableOpacity,  View,AsyncStorage , Alert,Image, Platform} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Container, Content, Header ,Button , Root, Toast,   Footer, FooterTab, Card, CardItem, Icon , Item, Input, Thumbnail, ListItem} from 'native-base';
 // https://sahbabahizad.com/ruhi_book_app/ruhi_units_list.php
@@ -14,51 +14,97 @@ export default class quotescreen extends Component {
     this.state = {
       isLoading: true,
       dataSource: '',
-      isEmpty: false,
-      showToast: false,
-    };
+      getValue:'',
+      //favs : 'favoritekey',
+      favs: '',
+        };
     this.arrayholder = [];
     
-}
-
+  }
+  /* async getItemValue(key) {
+    try {
+      let value = await AsyncStorage.getItem(key);
+      this.setState(
+        {favs : JSON.stringify(value),
+          favs : '00'
+        }
+        );
+    }
+    catch(exception) {
+    }
+  } */
+  _loadInitialState = async () => {
+    
+    AsyncStorage.getItem("favoritekey", (err, res) => {
+      if (res !== null) {
+        this.setState({getValue : res} );
+        getValue = res;
+        
+        return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_fav_list.php?ids='+this.state.getValue)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log(responseJson);
+          
+          this.arrayholder = responseJson;
+          if(this.arrayholder == 'Error: No Results Found.'){
+            navigate('BlankPage');
+          }
+          
+          this.setState({
+            isLoading: false,
+            dataSource: responseJson,
+          });
+          
+        })
+        
+        .catch((error) => {
+          console.error(error);
+        });}
+      else{
+        this.setState({getValue : "Ooops!",
+        isLoading: false,} )
+        return this.state.getValue;
+      }
+         
+    })
+  }
 
   componentDidMount() {
     const {navigate} = this.props.navigation;
     const navigation = this.props.navigation;
-    const book_id = navigation.getParam('par_book_id');  
-    const unit_id = navigation.getParam('par_unit_id'); 
+    return this._loadInitialState();
     
-    return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id='+book_id+'&unit_id='+unit_id)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        
-        this.arrayholder = responseJson;
-        if(this.arrayholder == 'Error: No Results Found.'){
-          navigate('BlankPage');
-        }
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
-          
-        });
-        
-      })
-      
-      .catch((error) => {
-        console.error(error);
-      });
-      
-  }
+}
 
   static navigationOptions = {
-    title: 'Select a quote ',
+    title: 'Favorite Quotes ',
    
   }; 
+  
+  renderItem = item => {
+    const {navigate} = this.props.navigation;
+    
+    return <ListItem button onPress={() => navigate('QuoteCard', { par_book_id : item.book_id, par_unit_id : item.unit_id, par_quote_desc :item.quote_desc })}  >
+    <Card>
+    <CardItem >
+    <View style={styles.textview}>
+    <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+    Quote {item.quote_id} 
+    </Text>
+    
+    <Text style={{fontWeight: 'bold', marginBottom: 5}}>
+    {item.quote_desc} 
+    </Text>
+   
+    </View >
+    </CardItem> 
+  </Card>
+    </ListItem>
+ 
+  }
+
   renderHeader = () => {
     return <View searchBar style={styles.headerstyle}>
-    
-    
      <Item > 
             <Icon name="ios-search" />
             <Input placeholder="Search Here..."
@@ -67,17 +113,17 @@ export default class quotescreen extends Component {
           round
           onChangeText={text => this.searchFilterFunction(text)}
           autoCorrect={false}
-          value = {this.state.text}/>
+         />
             <Icon name="ios-book" />
-            
+           
           </Item>
-        </View>;
-  };
-  searchFilterFunction = text => {
-    this.setState({
-      value: text,
-    });
 
+
+
+        </View>
+  }
+  searchFilterFunction = text => {
+   
     const newData = this.arrayholder.filter( item => {
       const itemData = item.quote_desc.toUpperCase();
       const textData = text.toUpperCase(); // This is the value of that is entered
@@ -90,23 +136,17 @@ export default class quotescreen extends Component {
     });
   };
   
-   
-  getcolor = text => {
-    if(text = 1) {
-      return "green"
-    }else{
-      return "gray"
-    }
-  }
-
+  
   render() {
-    const {navigate} = this.props.navigation;
+   
     if (this.state.isLoading) {
       return (
         <View style={{flex: 1}}>
           <ActivityIndicator />
         </View>
       );
+
+
     }
     
 
@@ -116,34 +156,14 @@ export default class quotescreen extends Component {
         
           <Content>
           <View style={styles.cardalign}>
+          <Text>{this.state.favs}</Text> 
           <FlatList
             data={this.state.dataSource}
-            renderItem ={({item}) => 
-             
-                
-                <ListItem button onPress={() => navigate('QuoteCard', { par_book_id : item.book_id, par_unit_id : item.unit_id, par_quote_desc :item.quote_desc, par_quote_id :item.quote_id })}  >
-                <Card>
-                <CardItem>
-                <View style={styles.textview}>
-                <Text style={{fontWeight: 'bold', marginBottom: 5}}>
-                Quote {item.quote_id} 
-                </Text>
-                <Text style={styles.textstyle}>
-                 {item.quote_desc}
-                </Text>
-                <Text style={{fontWeight: 'bold', marginBottom: 5}}>
-                </Text>
-               
-                </View >
-                </CardItem> 
-              </Card>
-                </ListItem>
-                
-                }
+            renderItem ={({item}) => this.renderItem(item) }
             keyExtractor={(item, index) => index.toString()}
             ListHeaderComponent={this.renderHeader}
-            
-            />  
+            />         
+  
             </View>
           </Content>
           <Footer>
@@ -151,8 +171,10 @@ export default class quotescreen extends Component {
         </Container>
        
     );
+    
+    }
   }
-}
+
 const styles = StyleSheet.create({
 
   

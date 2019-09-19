@@ -110,8 +110,9 @@ export default class search extends Component {
             renderItem ={({item}) => 
               <Card>
                 <CardItem>
-                <ListItem  >
-                          
+                
+                <ListItem button onPress={() => navigate('QuoteCard', { par_book_id : item.book_id, par_unit_id : item.unit_id, par_quote_desc :item.quote_desc, par_quote_id:item.quote_id })}  >
+                         
                   
                 <View >
                

@@ -17,6 +17,7 @@ import QuoteScreen from './src/components/quotelist';
 import QuoteCard from './src/components/quotecard';
 import SearchQuote from './src/components/search';
 import BlankPage from './src/components/blank';
+import FavoritePage from './src/components/favorites';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -34,6 +35,7 @@ const MainNavigator = createStackNavigator({
   QuoteCard: {screen: QuoteCard},
   SearchQuote: {screen: SearchQuote},
   BlankPage: {screen: BlankPage},
+  FavoritePage: {screen: FavoritePage},
 });
 
 

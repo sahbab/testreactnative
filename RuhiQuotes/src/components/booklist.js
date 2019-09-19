@@ -19,7 +19,7 @@ export default class bookscreen extends Component {
 }
 
   
-  componentDidMount() {
+componentDidMount() {
     return fetch('https://sahbabahizad.com/ruhi_book_app/BooksList.php')
       .then((response) => response.json())
       .then((responseJson) => {
@@ -32,10 +32,23 @@ export default class bookscreen extends Component {
       .catch((error) => {
         console.error(error);
       });
-  }
-
+}
+renderItem = item => {
+  const {navigate} = this.props.navigation;
+  return  <ListItem button onPress={() => navigate('UnitScreen' , { par_book_id : item.id})}>
+  <Card >
+    <CardItem> 
+        <Image source={{ uri: item.book_image_url }} style={styles.imageViewContainer}/>
+        <View style={styles.textview}>
+          <Text style={styles.textstyle}>Book {item.id}</Text>
+          <Text style={styles.textstyle}>{item.book_name}</Text>
+        </View>
+    </CardItem> 
+  </Card>
+</ListItem>
+}
   render() {
-    const {navigate} = this.props.navigation;
+   
     if (this.state.isLoading) {
       return (
         <View style={{flex: 1}}>
@@ -52,24 +65,7 @@ export default class bookscreen extends Component {
           
             <FlatList
             data={this.state.dataSource}
-            renderItem ={({item}) => 
-              <Card >
-
-                <CardItem> 
-                  <ListItem button onPress={() => navigate('UnitScreen' , { par_book_id : item.id})}>
-                    
-                    <Image source={{ uri: item.book_image_url }} style={styles.imageViewContainer}/>
-                    <View style={styles.textview}>
-                    <Text style={{ marginBottom: 5, textAlignVertical:'top'}}>Book {item.id}</Text>
-                    
-                    <Text>{item.book_name}</Text>
-                    </View>
-                   
-                  </ListItem>
-               
-                </CardItem> 
-                
-              </Card>}
+            renderItem ={({item}) => this.renderItem(item) }
             keyExtractor={(item, index) => index.toString()}
             />  
           </Content>
@@ -112,7 +108,7 @@ const styles = StyleSheet.create({
     },
     block: {
       flex: 1,
-      margin: 1,
+     
       paddingRight: 10,
       backgroundColor: 'white',
       margin: 10,
@@ -124,9 +120,10 @@ const styles = StyleSheet.create({
     textstyle: {
       
       textAlign: 'left',
-      fontSize: 16,
-
-      fontWeight: 'bold'
+      fontSize: 20,
+      color:"black",
+      fontWeight: 'bold',
+      
       
     },
     textview: {
@@ -144,7 +141,15 @@ const styles = StyleSheet.create({
     margin: 7,
     borderRadius : 7
     },
-    
+    textstyle2: {
+     
+    textAlign: 'left',
+    fontSize: 20,
+    color:"black",
+    fontWeight: 'bold',
+    marginBottom: 5,
+     textAlignVertical:'top'
+  }
     });
     
 // AppRegistry.registerComponent('RuhiBookApp_V0', () => RuhiBookApp_V0);

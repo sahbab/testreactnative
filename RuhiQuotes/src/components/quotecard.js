@@ -1,127 +1,193 @@
 
 import React, { Component } from 'react';
 // import Header from './header';
-import { AppRegistry, StyleSheet, ActivityIndicator, Text, View, Alert,Image, Platform} from 'react-native';
+import { AppRegistry, StyleSheet, ActivityIndicator, Text,AsyncStorage, View, Alert,Image} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+
+
 import { Container, Content, Header ,Button , Body, DeckSwiper, Left, Card, CardItem, Icon , Thumbnail, ListItem} from 'native-base';
 // https://sahbabahizad.com/ruhi_book_app/ruhi_units_list.php
 //https://sahbabahizad.com/ruhi_book_app/BooksList.php
+
 export default class quotecard extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      dataSource: ''
-      
+      quote : '',
+      id : '', 
+      isfavorite: '',
+      favorits : [],
     }
     
 }
-
 
   componentDidMount() {
     const {navigate} = this.props.navigation;
     const navigation = this.props.navigation;
     const book_id = navigation.getParam('par_book_id');  
     const unit_id = navigation.getParam('par_unit_id'); 
-    const quote_id = navigation.getParam('par_quote_id'); 
-    return fetch('https://sahbabahizad.com/ruhi_book_app/ruhi_quotes_list.php?book_id='+book_id+'&unit_id='+unit_id)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson,
-          
-          
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+    this.quote_desc = navigation.getParam('par_quote_desc');
+    this.quote_id = navigation.getParam('par_quote_id');
+    AsyncStorage.getItem( 'favoritekey', (error, result) => {
+      this.setState({ favorits: result}, function () { });})
+   
+   
+    this.setState({
+      quote: this.quote_desc,
+      id: this.quote_id,
+      isfavorite: false
+    });  
+  };
 
 
   static navigationOptions = {
     title: 'Preview ',
   }; 
 
-  render() {
-    const {navigate} = this.props.navigation;
-    if (this.state.isLoading) {
-      return (
-        <View style={{flex: 1}}>
-          <ActivityIndicator />
-        </View>
-      );
+  
+  addfontsize = () =>{
+this.setState({
+  fontSize: this.fontSize,
+});
+  };
+
+
+
+// Gets the value
+//getValueLocaly = key => {
+
+//AsyncStorage.getItem( key, (error, result) => {
+ // this.setState({ key: JSON.stringify(result)}, function () { });});
+//}
+
+getcurrentfavs = () =>{
+  key = 'favoritekey';
+  AsyncStorage.getItem( key, (error, result) => {
+    this.setState({ key: result}, function () { 
+      Alert.alert(result, this.state.key),
+      this.setState({
+        favorits: result
+      })
     }
     
+    );});
+    
+   
+  }
+
+/*async removeItemValue(key) {
+  //this.state.favorits.pop('favoritekey');
+  try {
+    await AsyncStorage.removeItem(key);
+    
+    Alert.alert("Value removed Successfully.")
+    return true;
+  }
+  catch(exception) {
+    return false;
+  }
+}*/
+setfavstatus = value_id => {
+  if(this.state.isfavorite == true){
+    this.setState({
+      isfavorite :false})
+     // this.removeItemValue('favoritekey')
+  }
+  else{
+    this.setState({
+      isfavorite :true,
+      favorits : this.state.favorits.concat(",",value_id )
+    }),
+    
+    AsyncStorage.setItem('favoritekey', this.state.favorits)
+  }
+}
+/*//NOT USED
+setValueLocally1 =  async () => {
+  try {
+    await AsyncStorage.setItem('@MySuperStore:key', this.state.quote);
+    Alert.alert("Value Stored Successfully.")
+  } catch (error) {
+    // Error saving data
+  }
+};
+//NOt USed
+setValueLocally22=()=>{
+ 
+  AsyncStorage.setItem('quote1', this.state.quote);
+  Alert.alert("Value Stored Successfully.")
+  return true
+}
+*/
+getcolor = () => {
+  if(this.state.isfavorite){
+    return 'red'
+  }
+  else{
+    return 'gray'
+  }
+}
+  render() {
+    const {navigate} = this.props.navigation;
 
     return (
-      
-      <View style={styles.cardalign}>
-        <Container>
-          <Content>
-            <DeckSwiper
-              dataSource={this.state.dataSource}
-              renderEmpty={() =>
-                <View style={{ alignSelf: "center" }}>
-                  <Text>Over</Text>
-                </View>
-              }
-              renderItem ={item  => 
-                <Card style={{ elevation: 2 }}>
-                  <CardItem>
-                    <Left>
-                      <Thumbnail source={{uri: 'http://sahbabahizad.com/ruhi_book_app/images/bgd.jpg'}}/>
-                      <Body>
-                        <Text >{item.quote_id }</Text>
-                        <Text note>Memorize</Text>
-                      </Body>
-                    </Left>
-                  </CardItem>
-                  <CardItem cardBody>
-                     <Text >{item.quote_desc}</Text>
+     
+      <View style={styles.textview} >
+        
+               <Card>
+                 <CardItem>
+                 <Text style={styles.textstyle} selectable={true} allowFontScaling={true}>
+                     {this.state.quote} 
+                 </Text>
                   </CardItem>
                   <CardItem>
-                    <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                    <Text>Favorite</Text>
+                  <Text><Icon name="heart" style={{color:this.getcolor()}} onPress={() => {this.setfavstatus(this.state.id )}}
+                  ></Icon>{this.state.id}</Text>
                   </CardItem>
-                </Card>
-          }
-          
-            />  
-          </Content>
-        </Container>
+               </Card>           
       </View>
+    
     );
   }
 }
+
+
 const styles = StyleSheet.create({
 
   
-    
-    imageViewContainer: {
-    // width: '50%',
-    //height: 250 ,
-    margin: 1,
-    borderRadius : 10,
-    width: 60, height: 60
+  
+    block: {
+      flex: 1,
+
+      backgroundColor: 'white',
+      flexDirection: 'row',
+      
+     
     },
     
-    cardalign:{
-      alignItems:'stretch',
-      flex: 1 ,
-      justifyContent: 'center',
-      flexDirection:'row'
-    },
     textview: {
-    
-      width: '88%',
-      textAlignVertical:'center',
-      textAlign:'justify',
+      flex: 1,
+      flexDirection: 'column',
+     width: "100%",
+     alignItems: 'stretch',
+     justifyContent:'center',
+      textAlign:'center',
       padding:10,
       color: '#000'
+      },
+    textstyle: {
+        
+       
+        textAlign: 'center',
+        fontSize: 18,
+       
+        fontWeight: 'bold',
+       
+        padding: 25,
+        color: 'black',
+        
       }
     
     });
