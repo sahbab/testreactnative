@@ -12,28 +12,32 @@ import { Container, Content, Header ,Button , Body, DeckSwiper, Left, Card, Card
 export default class quotecard extends Component {
   
   constructor(props) {
+    
     super(props);
     this.state = {
       isLoading: true,
       quote : '',
       id : '', 
       isfavorite: '',
-      favorits : [],
+      favorits : ''
     }
     
 }
 
   componentDidMount() {
+    
     const {navigate} = this.props.navigation;
     const navigation = this.props.navigation;
     const book_id = navigation.getParam('par_book_id');  
     const unit_id = navigation.getParam('par_unit_id'); 
     this.quote_desc = navigation.getParam('par_quote_desc');
     this.quote_id = navigation.getParam('par_quote_id');
-    AsyncStorage.getItem( 'favoritekey', (error, result) => {
-      this.setState({ favorits: result}, function () { });})
-   
-   
+    this.favorits = AsyncStorage.getItem("favoritekey", (err, res) => {
+      if (res !== null) {
+        this.setState({favorits : res} );}
+      else{
+        this.setState({favorits : '1'})
+      }});
     this.setState({
       quote: this.quote_desc,
       id: this.quote_id,
@@ -62,20 +66,19 @@ this.setState({
  // this.setState({ key: JSON.stringify(result)}, function () { });});
 //}
 
-getcurrentfavs = () =>{
+/* getcurrentfavs = () =>{
   key = 'favoritekey';
   AsyncStorage.getItem( key, (error, result) => {
     this.setState({ key: result}, function () { 
-      Alert.alert(result, this.state.key),
-      this.setState({
-        favorits: result
-      })
-    }
+      Alert.alert(result, this.state.key);
+      if( this.state.favorits == null ) {this.setState({favorits: '1' })}
+    else{ this.setState({ favorits: result }) }
+    });},
     
-    );});
+    );
     
    
-  }
+  } */
 
 /*async removeItemValue(key) {
   //this.state.favorits.pop('favoritekey');
@@ -93,16 +96,30 @@ setfavstatus = value_id => {
   if(this.state.isfavorite == true){
     this.setState({
       isfavorite :false})
+      //,
+     // Alert.alert("isfavetrue", this.state.favorits)
      // this.removeItemValue('favoritekey')
   }
   else{
-    this.setState({
+    if(this.state.favorits == ''){
+      this.setState({
+        favorits :value_id,
+        isfavorite :true,
+      })
+      //Alert.alert(this.state.favorits)
+    }
+    else{
+      favarray = this.state.favorits.concat(",",value_id ),
+      //Alert.alert("NOT BLANK", favarray),
+      this.setState({
       isfavorite :true,
-      favorits : this.state.favorits.concat(",",value_id )
-    }),
+      favorits : favarray }),
+      AsyncStorage.setItem('favoritekey', favarray)
+   //this.getcurrentfavs()
+    // ,favorits = this.state.favorits.concat(",",value_id )
     
-    AsyncStorage.setItem('favoritekey', this.state.favorits)
-  }
+    //Alert.alert(this.state.favorits)
+  }}
 }
 /*//NOT USED
 setValueLocally1 =  async () => {
